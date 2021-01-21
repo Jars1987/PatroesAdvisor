@@ -1,23 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Show</title>
-</head>
-<body>
-  <h1> <%= restaurant.title %> </h1>
-  <h2> <%= restaurant.location %> </h2>
-  <p>
-    <a href="/restaurants/<%= restaurant._id%>/edit">Edit</a>
-  </p>
-  <p>
-    <form action="/restaurants/<%= restaurant._id%>?_method=DELETE" method="POST">
-    <button>Delete</button>
-    </form>
-  </p>
-  <footer>
-    <a href="/restaurants"> All Restaurants</a>
-  </footer>
-</body>
-</html>
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img src="<%= restaurant.image %>" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= restaurant.title %></h5>
+        <p class="card-text"><%= restaurant.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Location: <%= restaurant.location %></li>
+        <li class="list-group-item">Average Meal Price: €<%= restaurant.price %></li>
+      </ul>
+      <div class="card-body">
+        <a href="/restaurants/<%= restaurant._id%>/edit" class="card-link btn btn-info">Edit</a>
+        <form class="d-inline" action="/restaurants/<%= restaurant._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">
+        2 days ago
+      </div>
+    </div>
+  </div>
+</div>
+
+  
