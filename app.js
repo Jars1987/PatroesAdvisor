@@ -2,14 +2,12 @@ const express            = require('express');
 const path               = require('path');
 const mongoose           = require('mongoose');
 const ejsMate            = require('ejs-mate');
-const {
-  restaurantSchema,
-  reviewSchema}          = require('./schemas');
-const catchAsync         = require('./utils/catchAsync');
+const session            = require('express-session');
+const flash              = require('connect-flash');
 const ExpressError       = require('./utils/ExpressError');
 const methodOverride     = require('method-override');
-const Restaurant         = require('./models/restaurant');
-const Review             = require('./models/review');
+const restaurants        = require('./routes/restaurants')
+const reviews            = require('./routes/reviews');
 
 
 mongoose.connect('mongodb://localhost:27017/patroes-advisor', {
@@ -35,85 +33,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
-const validateRestaurant = (req, res, next) => {
-  const {error} = restaurantSchema.validate(req.body);
-  if(error) {
-    const msg = error.details.map(el => el.message).join('.')
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
+const sessionConfig = {
+  secret: 'thisshouldbeabettersecret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
+app.use(session(sessionConfig));
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
 
-const validateReview = (req, res, next) => {
-  const {error} = reviewSchema.validate(req.body);
-  if(error) {
-    const msg = error.details.map(el => el.message).join('.')
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
+app.use('/restaurants', restaurants);
+app.use('/restaurants/:id/reviews', reviews);
 
 app.get('/', (req, res) =>{
   res.render('home');
 });
-
-app.get('/restaurants', catchAsync(async (req, res) => {
-  const restaurants = await Restaurant.find({});
-  res.render('restaurants/index', {restaurants});
-}));
-
-app.get('/restaurants/new', (req, res) => {
-  res.render('restaurants/new');
-});
-
-app.post('/restaurants', validateRestaurant, catchAsync(async (req, res, next) => {
-  //if(!req.body.restaurant) throw new ExpressError('Invalid Campground Data', 400)
-
-  const restaurant = new Restaurant(req.body.restaurant);
-  await restaurant.save();
-  res.redirect(`/restaurants/${restaurant._id}`);
-}));
-
-app.get('/restaurants/:id', catchAsync(async (req, res) => {
-  const restaurant = await Restaurant.findById(req.params.id).populate('reviews');
-  res.render('restaurants/show', {restaurant});
-}));
-
-app.get('/restaurants/:id/edit', catchAsync(async (req, res) => {
-  const restaurant = await Restaurant.findById(req.params.id);
-  res.render('restaurants/edit', {restaurant});
-}));
-
-app.put('/restaurants/:id', validateRestaurant, catchAsync(async (req, res) => {
-  const {id} = req.params;
-  const restaurant = await Restaurant.findByIdAndUpdate(id,{...req.body.restaurant});
-  res.redirect(`/restaurants/${restaurant._id}`);
-}));
-
-app.delete('/restaurants/:id', catchAsync(async (req, res) => {
-  const {id} = req.params;
-  await Restaurant.findByIdAndDelete(id);
-  res.redirect('/restaurants');
-}));
-
-app.post('/restaurants/:id/reviews',validateReview, catchAsync(async (req, res) => {
-  const restaurant = await Restaurant.findById(req.params.id);
-  const review = new Review(req.body.review);
-  restaurant.reviews.push(review);
-  await review.save();
-  await restaurant.save();
-  res.redirect(`/restaurants/${restaurant._id}`);
-}));
-
-app.delete('/restaurants/:id/reviews/:reviewId', catchAsync( async (req, res) =>{
-  const {id, reviewId} = req.params;
-  await Restaurant.findByIdAndUpdate(id, {$pull: {reviews: reviewId}})
-  await Review.findByIdAndDelete(reviewId);
-  res.redirect(`/restaurants/${id}`);
-}));
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));
