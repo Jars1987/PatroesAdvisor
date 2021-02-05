@@ -10,6 +10,17 @@
         <a class="nav-link" href="/restaurants">Restaurants</a>
         <a class="nav-link" href="/restaurants/new">New Restaurant</a>
       </div>
+      <div class="navbar-nav ms-auto">
+        <%if(!currentuser){ %> 
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Sign Up</a>
+        <% } else {%> 
+          <span class="navbar-text">
+            Hi, <%= currentuser.username %>! 
+          </span>
+        <a href="/logout" class="nav-link">Logout</a>
+        <% } %> 
+      </div>
     </div>
   </div>
 </nav>
