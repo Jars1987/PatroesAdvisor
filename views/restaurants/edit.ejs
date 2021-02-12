@@ -2,7 +2,7 @@
   <div class="row">
     <h1 class="text-center">Edit Restaurant</h1>
     <div class="col-6 offset-3">
-      <form action="/restaurants/<%=restaurant._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+      <form action="/restaurants/<%=restaurant._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data" id="restaurantEditForm">
        <div class="mb-3">
          <label class="form-label" for="title">Title</label>
          <input class="form-control" type="text" id="title" name="restaurant[title]" value="<%= restaurant.title%>" required>
@@ -14,11 +14,6 @@
          <div class="valid-feedback"> Looks good!</div>
        </div>
        <div class="mb-3">
-         <label class="form-label" for="image">Image Url</label>
-         <input class="form-control" type="text" id="image" name="restaurant[image]" value="<%= restaurant.image%>" required>
-         <div class="valid-feedback"> Looks good!</div>
-       </div>
-       <div class="mb-3">
          <label class="form-label" for="price">Average Meal Price</label>
          <div class="input-group mb-3">
            <span class="input-group-text" id="price-label">€</span>
@@ -27,9 +22,24 @@
          </div>
        </div>
        <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Add More Images</label>
+        <input type="file" class="form-control imageUpload" id="formFileMultiple" name="image" multiple>
+        <div class="valid-feedback"> Looks good!</div>
+      </div>
+       <div class="mb-3">
          <label class="form-label" for="description">Description</label>
          <textarea class="form-control" type="text" id="description" name="restaurant[description]" required><%= restaurant.description%></textarea>
          <div class="valid-feedback"> Looks good!</div>
+       </div>
+       <div class="mb-3">
+         <p class="form-label">Do you want to remove any of the following images?</p>
+         <% restaurant.images.forEach(function (img, i){ %>
+          <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+          <div class="form-check-inline">
+            <input type="checkbox" class="imageDeleteCheckbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+          </div>
+          <label for="image-<%=i%>">Delete?</label>
+          <% })%> 
        </div>
        <div class="mb-3">
          <button class="btn btn-info">Update Restaurant</button>
@@ -39,3 +49,35 @@
     </div>
   </div>
  
+  <script>
+    let restaurantEditForm = document.getElementById('restaurantEditForm');
+    function hasExtension(inputID, exts) {
+      var fileName = document.getElementById(inputID).value;
+      return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$', "i")).test(fileName);
+       }
+
+    restaurantEditForm.addEventListener('submit', function(event) {
+      let imageUploads       = document.querySelector('.imageUpload').files.length;
+      let existingImgs       = document.querySelectorAll('.imageDeleteCheckbox').length; 
+      let imgDeletions       = document.querySelectorAll('.imageDeleteCheckbox:checked').length;
+      let newTotal = existingImgs - imgDeletions + imageUploads;
+      let removalAmount = newTotal - 6;
+      if( newTotal > 6){
+        event.preventDefault();
+        return alert(`Sorry! Only 6 images per Restaurant are allowed. You need to remove at leat ${removalAmount} image${removalAmount === 1 ? '' : 's'}.`);
+      } else if ( newTotal === 0) {
+        event.preventDefault();
+        return alert('Sorry! A Restaurant must contain at least one Image.');
+      }
+
+      if (!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])) {
+        event.preventDefault();
+        return alert('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images');
+      }
+
+    });
+
+
+
+
+  </script>

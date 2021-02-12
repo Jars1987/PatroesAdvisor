@@ -1,13 +1,18 @@
 const Joi = require('Joi');
+const number = require('joi');
+
+//Need image validation! client side with ian
+//need to check if of total images is over 6 and if is let let the consumer know
 
 module.exports.restaurantSchema = Joi.object({
   restaurant: Joi.object({
     title:  Joi.string().required(),
     price: Joi.number().required().min(0),
-    image: Joi.string().required(),
+    //images: Joi.array().items()required(),
     location: Joi.string().required(),
     description: Joi.string().required()
-  }).required()
+  }).required(),
+    deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({
@@ -16,3 +21,6 @@ module.exports.reviewSchema = Joi.object({
     body: Joi.string().required()
   }).required()
 });
+
+
+

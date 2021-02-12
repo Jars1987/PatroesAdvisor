@@ -3,6 +3,12 @@ const {restaurantSchema,
 const ExpressError       = require('./utils/ExpressError');
 const Restaurant         = require('./models/restaurant');
 const Review             = require('./models/review');
+const multer             = require('multer');
+const { storage }        = require('./cloudinary');
+const upload             = multer({
+                          storage,
+                          limits: { fileSize: 2500000, files: 6} 
+                        });
 
 module.exports.isLoggedIn = (req, res, next) => {
   if(!req.isAuthenticated()){
@@ -13,17 +19,16 @@ module.exports.isLoggedIn = (req, res, next) => {
   next();
 }
 
-
 module.exports.validateRestaurant = (req, res, next) => {
-  const {error} = restaurantSchema.validate(req.body);
-  if(error) {
-    const msg = error.details.map(  el => el.message).join('.')
-    throw new ExpressError(msg, 400);
+  const { error } = restaurantSchema.validate(req.body);
+  console.log(req.body);
+  if (error) {
+      const msg = error.details.map(el => el.message).join(',')
+      throw new ExpressError(msg, 400)
   } else {
-    next();
+      next();
   }
 }
-
 
 module.exports.isAuthor = async (req, res, next) => {
   const {id} = req.params;
@@ -54,3 +59,16 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   }
   next()
 }
+
+  
+module.exports.uploadFile = (req, res, next) => {
+  const uploadProcess = upload.array('image');
+  uploadProcess(req, res, err => {
+     if (err instanceof multer.MulterError) {
+        return next(new Error(err, 500));
+     } else if (err) {
+        return next(new Error(err, 500));
+     }
+     next();
+  });
+};
