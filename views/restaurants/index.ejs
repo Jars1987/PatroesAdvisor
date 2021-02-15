@@ -6,7 +6,12 @@
      <div class="card mb-3">
         <div class="row">
           <div class="col-md-4">
+            <!-- client and back end validation done but we can add this extra step -->
+            <%if(restaurant.images.length){%> 
             <img src="<%= restaurant.images[0].url %>" alt="" class="img-fluid">
+            <%} else {%> 
+              <img src="images/backupRest.jpg" alt="" class="img-fluid">
+              <%}%> 
           </div>
           <div class="col-md-8">
             <div class="card-body">

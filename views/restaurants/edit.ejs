@@ -68,13 +68,12 @@
       } else if ( newTotal === 0) {
         event.preventDefault();
         return alert('Sorry! A Restaurant must contain at least one Image.');
+      } else if(imageUploads > 0){
+         if (!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])) {
+         event.preventDefault();
+         return alert('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images');
+        }
       }
-
-      if (!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])) {
-        event.preventDefault();
-        return alert('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images');
-      }
-
     });
 
 
