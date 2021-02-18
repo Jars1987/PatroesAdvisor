@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Review   = require('./review');
 const Schema   = mongoose.Schema;
+const opts     = { toJSON: {virtuals: true}};
 
 
 
@@ -13,7 +14,7 @@ const ImageSchema = new Schema({
 //it will looked it is stored but in fact is calling virtual everytime
 ImageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/c_scale,w_200,h_140');
-})
+});
 
 const RestaurantSchema = new Schema({
   title: String,
@@ -42,6 +43,13 @@ const RestaurantSchema = new Schema({
       ref: 'Review'
     }
   ]
+}, opts);
+
+
+
+RestaurantSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<a href="/restaurants/${this._id}" >${this.title}</a>
+            <p>${this.description.substring(0, 50)}...</p>`;
 });
 
 RestaurantSchema.post('findOneAndDelete', async function (doc) {
@@ -53,6 +61,8 @@ RestaurantSchema.post('findOneAndDelete', async function (doc) {
     })
   }
 });
+
+
 
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);

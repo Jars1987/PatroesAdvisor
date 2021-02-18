@@ -1,7 +1,17 @@
 <% layout('layouts/boilerplate') %>
-  <h1>All Restaurants</h1>
-  <a href="/restaurants/new">New Restaurant</a>
-  
+
+<h3> Where are you going to eat today?</h3>
+<div id="map" class="clusterMap"></div>
+
+<div class="d-flex my-3">
+  <form class="d-flex my-3">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</div>
+
+
+<h1>All Restaurants</h1>
     <% for(let restaurant of restaurants){ %> 
      <div class="card mb-3">
         <div class="row">
@@ -24,3 +34,9 @@
         </div>
      </div>
     <% }%> 
+
+    <script> 
+      const mapBoxToken = '<%-process.env.MAPBOX_TOKEN%>';
+      const restaurants = {features: <%- JSON.stringify(restaurants) %>}; 
+    </script>
+    <script src="javascripts/clusterMap.js"></script>

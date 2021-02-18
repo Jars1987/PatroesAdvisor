@@ -1,6 +1,6 @@
 
 const Restaurant         = require('../models/restaurant');
-const mbxGeocoding         = require('@mapbox/mapbox-sdk/services/geocoding');
+const mbxGeocoding       = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken        = process.env.MAPBOX_TOKEN;
 const geocoder           = mbxGeocoding({accessToken: mapBoxToken});
 const { cloudinary }     = require('../cloudinary');
@@ -19,6 +19,10 @@ module.exports.createRestaurant = async (req, res, next) => {
     query: req.body.restaurant.location,
     limit: 1
   }).send()
+  if(!geoData.body.features[0]){
+    req.flash('error', 'Please insert a valid location!');
+    res.redirect(`/restaurants/${id}/edit`);
+  }
   const restaurant = new Restaurant(req.body.restaurant);
   if(req.files.length === 0 ){
     req.flash('error', 'In order to add a new Restaurant at least one image must be provided!');

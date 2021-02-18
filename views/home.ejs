@@ -3,9 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patrões Advisorlaunch page</title>
+  <title>Patrões Advisor launch page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/home.css">
+
 </head>
-<body>
-  <h1>Welcome to Patrões Advisor</h1>
+<body class=" d-flex text-center text-white bg-dark">
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h3 class="float-md-start mb-0">Patrões Advisor</h3>
+        <nav class="nav nav-masthead justified-content-center float-md-end">
+          <a href="#" class="nav-link active" arria-current="page">Home</a>
+          <a href="/restaurants" class="nav-link">Restaurants</a>
+          <%if(!currentuser){ %> 
+            <a href="/login" class="nav-link">Login</a>
+            <a href="/register" class="nav-link">Sign Up</a>
+            <% } else {%> 
+              <span class="navbar-text">
+                Hi, <%= currentuser.username %>! 
+              </span>
+            <a href="/logout" class="nav-link">Logout</a>
+            <% } %> 
+        </nav>
+      </div>
+    </header>
+    <main class="px-3">
+      <h1>Patrões Advisor</h1>
+      <p class="lead">Welcome to Patrões Advisor! <br> Jump right in and and choose where your next meal is going to be. <br>
+        Feel free to share some of your favorite restaurants and share your experience on others!</p>
+      <a href="/restaurants" class="btn btn-large btn-secondary bg-white">View Restaurants</a>
+    </main>
+
+    <footer class="mt-auto text-white-50">
+      <p>&copy; 2021 Patrões Advisor</p>
+      <p>Photo by Michael Browning - www.unsplash.com</p>
+    </footer>
+  </div>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+
 </body>
 </html>
