@@ -36,3 +36,18 @@ module.exports.logoutUser = (req, res) => {
   req.flash('success', 'Successfuly loged out. Goodbye!')
   res.redirect('/restaurants');
 };
+
+module.exports.profile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    console.log(user);
+    res.render('users/profile', {user});
+  } catch (error) {
+    req.flash('error', 'User not found. Please Login!');
+    return res.redirect('/login');
+  }
+};
+
+module.exports.editProfile = (req, res) => {
+  res.send('Edit Profile Form');
+};

@@ -16,7 +16,7 @@
         <a href="/register" class="nav-link">Sign Up</a>
         <% } else {%> 
           <span class="navbar-text">
-            Hi, <%= currentuser.username %>! 
+            Hi, <a id="userName" href="/profile/<%= currentuser._id%>"><%= currentuser.username %></a>! 
           </span>
         <a href="/logout" class="nav-link">Logout</a>
         <% } %> 
