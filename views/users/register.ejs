@@ -8,7 +8,7 @@
                   alt="" class="card-img-top" />
               <div class="card-body">
                   <h5 class="card-title">Sign Up</h5>
-                  <form action="/register" method="POST" class="validated-form" novalidate>
+                  <form action="/register" method="POST" class="validated-form" enctype="multipart/form-data" novalidate>
                       <div class="mb-3">
                           <label class="form-label" for="username">Username</label>
                           <input class="form-control" type="text" id="username" name="username" required autofocus>
@@ -29,6 +29,13 @@
                           <div class="valid-feedback">
                               Looks good!
                           </div>
+                      </div>
+
+                      <div class="mb-3"> 
+                        <label for="profilePicForm" class="form-label">Add a Porfile Picture:</label>
+                        <input class="form-control" type="file" name="image" id="profilePicForm" required>
+                        <div class="invalid-feedback"> Image required to Sign Up a new User</div>
+                
                       </div>
                       <div class="d-grid">
                         <button class="btn btn-success">Register</button>

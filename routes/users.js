@@ -3,11 +3,16 @@ const router     = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const users      = require('../controllers/users');
 const passport   = require('passport');
-const { response } = require('express');
+const {
+      profilePicUpload,
+      isLoggedIn,
+      isProfileOwner
+    }             = require('../middleware');
+
 
 router.route('/register')
   .get(users.renderSignUpForm)
-  .post(catchAsync(users.createNewUser));
+  .post(profilePicUpload, catchAsync(users.createNewUser));
 
 router.route('/login')
   .get(users.renderLogin)
@@ -18,7 +23,7 @@ router.get('/logout', users.logoutUser);
 //New Route and new functionality
 
 router.route('/profile/:id')
- .get(users.profile)
+ .get(isLoggedIn, isProfileOwner, users.profile)
  .put(users.editProfile);
 
  router.get('/forgot', (req, res) =>{

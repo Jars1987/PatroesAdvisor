@@ -82,8 +82,15 @@
             <p class="starability-result" data-rating="<%=review.rating%>">
                 Rated: <%=review.rating%> stars
             </p>
-          <h6 class="card-subtitle mb-2 text-muted">1 day Ago</h6>
-          <p class="card-text">Review: <%= review.body %> </p>
+            <div class="row">
+              <div class="col-2">
+                <img src="<%- (!review.author.image.length) ? '/images/profileRandom.jpg' : review.author.image.reviewProfilePic %>" class="img-fluid alt="">
+              </div>
+              
+              <p class="card-text col-10">Review: <%= review.body %> </p>
+
+            </div>
+          <p class="card-subtitle mt-3 mb-2 text-muted">1 day Ago</p>
           <% if(currentuser && review.author.equals(currentuser._id)){ %>
           <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=DELETE" method="POST">
           <button class="btn btn-sm btn-danger">Delete</button>

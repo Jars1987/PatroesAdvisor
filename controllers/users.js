@@ -9,6 +9,12 @@ module.exports.createNewUser = async (req, res) => {
     const {email, username, password} = req.body;
     const user = new User({email, username});
     const registeredUser= await User.register(user, password);
+    if(req.file.length === 0 ){
+      req.flash('error', 'In order to Sign Up a User a Profile picture must be provided!');
+      return res.redirect('/restaurants/new');
+    }
+    registeredUser.image = {url: req.file.path, filename: req.file.filename};
+    await registeredUser.save()
     req.login(registeredUser, err => {
       if(err) return next(err);
       req.flash('success', 'Welcome to Patrões Advisor')

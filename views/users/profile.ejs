@@ -1,6 +1,22 @@
 <% layout('layouts/boilerplate') %> 
 
-<h1><%= user.username %> </h1>
-
-<h5> <%= user.email %>  </h5>
-<h5>password: *********</h5>
+<div class="profileContainer">
+  <div class="row">
+    <div class=" col-6 col-md-3">
+      <div class="card">
+       <img id="profilePic" src="<%- (!user.image.length) ? '/images/profileRandom.jpg' : user.image[0].url%>" class="img-thumnail" alt="User Profile Picture">
+      </div>
+    </div>
+    <div class=" col-6 col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= user.username %></h5>
+          <p class="card-text">Email: <%= user.email %> </p>
+          <p class="card-text">Reviews: <%- (!user.reviews.length) ? '0' : user.reviews.length+1 %> </p>
+          <p class="card-text"> Restaurants created: 9 </p>
+          <a href="#" class="btn btn-primary">Edit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

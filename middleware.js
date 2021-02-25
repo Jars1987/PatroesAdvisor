@@ -3,6 +3,7 @@ const {restaurantSchema,
 const ExpressError       = require('./utils/ExpressError');
 const Restaurant         = require('./models/restaurant');
 const Review             = require('./models/review');
+const User               = require('./models/user');
 const multer             = require('multer');
 const { storage }        = require('./cloudinary');
 const upload             = multer({
@@ -72,3 +73,27 @@ module.exports.uploadFile = (req, res, next) => {
      next();
   });
 };
+
+module.exports.profilePicUpload = (req, res, next) => {
+  const uploadProcess = upload.single('image');
+  uploadProcess(req, res, err => {
+     if (err instanceof multer.MulterError) {
+        return next(new Error(err, 500));
+     } else if (err) {
+        return next(new Error(err, 500));
+     }
+     next();
+  });
+};
+
+module.exports.isProfileOwner = async (req, res, next) => {
+  const {id} = req.params;
+  const userProfile = await User.findById(id);
+  const userId      = req.user._id
+  console.log(req.user)
+  if(!userProfile._id.equals(userId)){
+    req.flash('error', 'You are not the owner of the Profile you attempted to visit!');
+    return res.redirect(`/profile/${userId}`);
+  }
+  next()
+}
