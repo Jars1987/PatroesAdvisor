@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Review   = require('./review');
 const Schema   = mongoose.Schema;
-const opts     = { toJSON: {virtuals: true}};
+const opts     = ({ toJSON: {virtuals: true}}, { timestamps: { createdAt: 'created_at' } });
 
 
 
@@ -50,6 +50,11 @@ const RestaurantSchema = new Schema({
 RestaurantSchema.virtual('properties.popUpMarkup').get(function () {
     return `<a href="/restaurants/${this._id}" >${this.title}</a>
             <p>${this.description.substring(0, 50)}...</p>`;
+});
+
+RestaurantSchema.virtual('dateEdited').get(function () {
+  const updatedDate = new Date(this.updatedAt);
+  return updatedDate.toLocaleDateString();
 });
 
 RestaurantSchema.post('findOneAndDelete', async function (doc) {

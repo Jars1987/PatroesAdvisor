@@ -31,7 +31,7 @@ UserSchema.plugin(passportLocalMongoose);
 // make sure it is unique, password, aditional methods etc...
 
 ImageSchema.virtual('reviewProfilePic').get(function () {
-  return this.url.replace('/upload', '/upload/c_scale,w_25,h_25');
+  return this.url.replace('/upload', '/upload/c_scale,w_85,h_75');
 });
 
 

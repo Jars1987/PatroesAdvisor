@@ -1,5 +1,6 @@
 const {restaurantSchema,
-       reviewSchema}     = require('./schemas');
+       reviewSchema,
+       userSchema}       = require('./schemas');
 const ExpressError       = require('./utils/ExpressError');
 const Restaurant         = require('./models/restaurant');
 const Review             = require('./models/review');
@@ -97,3 +98,15 @@ module.exports.isProfileOwner = async (req, res, next) => {
   }
   next()
 }
+
+
+//If a Joi validation  was need for Sign Up user
+/*module.exports.validateUser = (req, res, next) => {
+  const {error} = userSchema.validate(req.body);
+  if(error) {
+    const msg = error.details.map(el => el.message).join('.')
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+} */

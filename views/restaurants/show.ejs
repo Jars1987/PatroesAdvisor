@@ -31,7 +31,7 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted">Location: <%= restaurant.location %></li>
         <li class="list-group-item">Average Meal Price: €<%= restaurant.price %></li>
-        <li class="list-group-item">Submitted by: <%= restaurant.author.username %></li>
+        <li class="list-group-item">Type of food: Fusion</li>
       </ul>
       <% if(currentuser && restaurant.author.equals(currentuser._id)){ %> 
       <div class="card-body">
@@ -42,12 +42,11 @@
       </div>
       <% } %> 
       <div class="card-footer text-muted">
-        2 days ago
-      </div>
+        <%- (restaurant.created_at === restaurant.updatedAt) ? 'Created by' : 'Edit by'%> <%= restaurant.author.username %> on <%= restaurant.dateEdited%> </div>
     </div>
   </div>
   <div class="col-6">
-    <div id='map' class="showMap"></div>
+    <div id='map' class="showMap mb-3"></div>
     <% if(currentuser){ %> 
     <h2>Leave a Review</h2>
     <form action="/restaurants/<%= restaurant._id%>/reviews" method="POST" class="mb-3 validated-form" id="reviewForm" novalidate>
@@ -83,14 +82,27 @@
                 Rated: <%=review.rating%> stars
             </p>
             <div class="row">
-              <div class="col-2">
-                <img src="<%- (!review.author.image.length) ? '/images/profileRandom.jpg' : review.author.image.reviewProfilePic %>" class="img-fluid alt="">
+              <div class="col-3">
+                <img src="<%- (!review.author.image.length) ? '/images/profileRandom.jpg' : review.author.image[0].url %>" class="img-fluid mx-auto mb-1" style="max-height: 100px" alt="">
+                <p class="userType">Level:
+                  <% if(!review.author.reviews.length || review.author.reviews.length < 10){ %>
+                    Rookie
+                  <% } else if(review.author.reviews.length > 9 && review.author.reviews.length < 25){ %>
+                    Professional  
+                  <% } else if(review.author.reviews.length > 24 && review.author.reviews.length < 50){ %>
+                    Food Critic
+                  <% } else if(review.author.reviews.length > 49 && review.author.reviews.length < 100){ %>
+                    Connoisseur
+                  <% } else if(review.author.reviews.length > 100){ %>
+                    Michelin Inspector
+                  <% } %>    
+                </p>
               </div>
               
-              <p class="card-text col-10">Review: <%= review.body %> </p>
+              <p class="card-text col-9">Review: <%= review.body %> </p>
 
             </div>
-          <p class="card-subtitle mt-3 mb-2 text-muted">1 day Ago</p>
+          <p class="card-subtitle mt-3 mb-2 text-muted"><%= review.reviewDate%></p>
           <% if(currentuser && review.author.equals(currentuser._id)){ %>
           <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=DELETE" method="POST">
           <button class="btn btn-sm btn-danger">Delete</button>
@@ -107,3 +119,14 @@
   const restaurantInfo = <%- JSON.stringify(restaurant)%>;
 </script>
 <script src="/javascripts/maps.js"></script>
+
+
+
+
+
+
+
+
+
+
+

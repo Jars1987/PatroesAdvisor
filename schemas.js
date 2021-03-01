@@ -23,8 +23,7 @@ const extension = (joi) => ({
 });
 
 const Joi = BaseJoi.extend(extension);
-//Need image validation! client side with ian
-//need to check if of total images is over 6 and if is let let the consumer know
+
 
 module.exports.restaurantSchema = Joi.object({
   restaurant: Joi.object({
@@ -44,6 +43,9 @@ module.exports.reviewSchema = Joi.object({
   }).required()
 });
 
-//Need to do usersSchema to valdiate users
-
-
+/*module.exports.userSchema = Joi.object({
+  user: Joi.object({
+    username: Joi.string().escapeHTML(),
+    email: Joi.string().email().required().escapeHTML()
+  }).required()
+});*/

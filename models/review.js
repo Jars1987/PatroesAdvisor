@@ -9,6 +9,11 @@ const reviewSchema = new Schema({
    type: Schema.Types.ObjectId,
    ref: 'User'
  }
+}, { timestamps: { createdAt: 'created_at' } });
+
+reviewSchema.virtual('reviewDate').get(function () {
+  const updatedDate = new Date(this.updatedAt).toLocaleDateString('pt-PT', { timeZone: 'GMT' });
+  return updatedDate;
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

@@ -6,7 +6,7 @@ const passport   = require('passport');
 const {
       profilePicUpload,
       isLoggedIn,
-      isProfileOwner
+      isProfileOwner,
     }             = require('../middleware');
 
 
