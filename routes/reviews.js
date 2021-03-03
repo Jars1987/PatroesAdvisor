@@ -12,6 +12,9 @@ const catchAsync         = require('../utils/catchAsync');
 
 router.post('/', isLoggedIn, validateReview, catchAsync(reviews.createReview));
 
+router.put('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(reviews.updateReview));
+
 router.delete('/:reviewId', isLoggedIn, isReviewAuthor,catchAsync(reviews.deleteReview));
+
 
 module.exports = router;

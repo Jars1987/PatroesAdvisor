@@ -41,6 +41,7 @@ module.exports.showRestaurant = async (req, res) => {
   const restaurant = await Restaurant.findById(req.params.id)
   .populate({
             path: 'reviews',
+            options: {sort: {'_id': -1}},
             populate: {
                 path: 'author'
             }})

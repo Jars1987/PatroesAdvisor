@@ -104,9 +104,33 @@
             </div>
           <p class="card-subtitle mt-3 mb-2 text-muted"><%= review.reviewDate%></p>
           <% if(currentuser && review.author.equals(currentuser._id)){ %>
-          <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-          <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
+          <div class="row">
+
+            <div class="col-2">
+              <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+
+
+              <div class="card d-md-block col-10" id="editCard">
+                <button class="btn btn-sm btn-warning toggle-edit-form">Update</button>
+                <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=PUT" method="POST" class="mb-3 validated-form edit-review-form" id="reviewForm" novalidate>
+                  <div class="mb-3">
+                    <label class="form-label" for="ratingStars">Update Rating to:</label>
+                    <input id="ratingStars" type="number" name="review[rating]" min="1" max="5" step="1" value="<%= review.rating %>" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="body">Update Review to:</label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required><%= review.body %></textarea>
+                    <div class="valid-feedback"> Looks good!</div>
+                  </div>
+                  <button class="btn btn-success">Update Review</button>
+                </form>
+              </div>
+          </div>
+          
+           
           <% } %> 
        </div>
       </div>
@@ -119,6 +143,7 @@
   const restaurantInfo = <%- JSON.stringify(restaurant)%>;
 </script>
 <script src="/javascripts/maps.js"></script>
+<script src="/javascripts/toggleReview.js"></script>
 
 
 
