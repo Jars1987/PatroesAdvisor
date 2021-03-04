@@ -57,6 +57,11 @@ RestaurantSchema.virtual('dateEdited').get(function () {
   return updatedDate.toLocaleDateString();
 });
 
+RestaurantSchema.virtual('dateCreated').get(function () {
+  const createdDate = new Date(this.created_at);
+  return createdDate.toLocaleDateString();
+});
+
 RestaurantSchema.post('findOneAndDelete', async function (doc) {
   if(doc){
     await Review.deleteMany({

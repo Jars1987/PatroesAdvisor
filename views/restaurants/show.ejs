@@ -42,7 +42,9 @@
       </div>
       <% } %> 
       <div class="card-footer text-muted">
-        <%- (restaurant.created_at === restaurant.updatedAt) ? 'Created by' : 'Edit by'%> <%= restaurant.author.username %> on <%= restaurant.dateEdited%> </div>
+        <p>Created by <%= restaurant.author.username %> on <%= restaurant.dateCreated%> </p>
+        <!-- If reviewing didn't affect Restaurant Updated Date: <%- (restaurant.created_at === restaurant.updatedAt) ? 'Created by' : 'Edit by'%> <%= restaurant.author.username %> on <%= restaurant.dateEdited%> -->
+      </div>
     </div>
   </div>
   <div class="col-6">
@@ -52,18 +54,18 @@
     <form action="/restaurants/<%= restaurant._id%>/reviews" method="POST" class="mb-3 validated-form" id="reviewForm" novalidate>
       <div class="mb-3">
         <fieldset class="starability-grow">
-          <h5 class="card-title">Rating:</h5>
-          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-          <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-          <label for="first-rate1" title="Terrible">1 star</label>
-          <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-          <label for="first-rate2" title="Not good">2 stars</label>
-          <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-          <label for="first-rate3" title="Average">3 stars</label>
-          <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-          <label for="first-rate4" title="Very good">4 stars</label>
-          <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-          <label for="first-rate5" title="Amazing">5 stars</label>
+          <legend>Rating:</legend>
+          <input type="radio" id="rate0" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+          <input type="radio" id="rate1" name="review[rating]" value="1" />
+          <label for="rate1" title="Terrible">1 star</label>
+          <input type="radio" id="rate2" name="review[rating]" value="2" />
+          <label for="rate2" title="Not good">2 stars</label>
+          <input type="radio" id="rate3" name="review[rating]" value="3" />
+          <label for="rate3" title="Average">3 stars</label>
+          <input type="radio" id="rate4" name="review[rating]" value="4" />
+          <label for="rate4" title="Very good">4 stars</label>
+          <input type="radio" id="rate5" name="review[rating]" value="5" />
+          <label for="rate5" title="Amazing">5 stars</label>
         </fieldset>
       </div>
       <div class="mb-3">
@@ -117,8 +119,20 @@
                 <button class="btn btn-sm btn-warning toggle-edit-form">Update</button>
                 <form action="/restaurants/<%= restaurant._id%>/reviews/<%= review._id %>?_method=PUT" method="POST" class="mb-3 validated-form edit-review-form" id="reviewForm" novalidate>
                   <div class="mb-3">
-                    <label class="form-label" for="ratingStars">Update Rating to:</label>
-                    <input id="ratingStars" type="number" name="review[rating]" min="1" max="5" step="1" value="<%= review.rating %>" required>
+                    <fieldset class="starability-grow">
+                      <legend>Rating:</legend>
+                      <input type="radio" id="edit-rate0" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                      <input type="radio" id="edit-rate1" name="review[rating]" value="1" />
+                      <label for="edit-rate1" title="Terrible">1 star</label>
+                      <input type="radio" id="edit-rate2" name="review[rating]" value="2" />
+                      <label for="edit-rate2" title="Not good">2 stars</label>
+                      <input type="radio" id="edit-rate3" name="review[rating]" value="3" />
+                      <label for="edit-rate3" title="Average">3 stars</label>
+                      <input type="radio" id="edit-rate4" name="review[rating]" value="4" />
+                      <label for="edit-rate4" title="Very good">4 stars</label>
+                      <input type="radio" id="edit-rate5" name="review[rating]" value="5" />
+                      <label for="edit-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
                   </div>
                   <div class="mb-3">
                     <label class="form-label" for="body">Update Review to:</label>
@@ -127,10 +141,11 @@
                   </div>
                   <button class="btn btn-success">Update Review</button>
                 </form>
+                <script>
+                  document.getElementById('edit-rate<%= review.rating %>').checked = true;
+                </script>
               </div>
-          </div>
-          
-           
+          </div> 
           <% } %> 
        </div>
       </div>
