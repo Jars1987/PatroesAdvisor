@@ -13,7 +13,7 @@
           <h5 class="card-title"><%= user.username %></h5>
           <p class="card-text">Email: <%= user.email %> </p>
           <p class="card-text">Reviews: <%- (!user.reviews.length) ? '0' : user.reviews.length+1 %> </p>
-          <p class="card-text"> Restaurants created: 9 </p>
+          <p class="card-text"> Restaurants created: <%- (!restaurants.length) ? 'No Restaurants created yet.' : restaurants.length %> </p>
           <a href="#" class="btn btn-primary">Edit</a>
         </div>
       </div>

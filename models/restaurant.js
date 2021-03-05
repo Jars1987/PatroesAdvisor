@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const Review   = require('./review');
-const Schema   = mongoose.Schema;
-const opts     = ({ toJSON: {virtuals: true}}, { timestamps: { createdAt: 'created_at' } });
+const mongoose         = require('mongoose');
+const Review           = require('./review');
+const mongoosePaginate = require('mongoose-paginate')
+const Schema           = mongoose.Schema;
+const opts             = { toJSON: {virtuals: true}, timestamps: { createdAt: 'created_at' }};
 
 
 
@@ -42,7 +43,8 @@ const RestaurantSchema = new Schema({
       type: Schema.Types.ObjectId, 
       ref: 'Review'
     }
-  ]
+  ],
+  avgRating: {type: Number, default: 0}
 }, opts);
 
 
@@ -72,7 +74,22 @@ RestaurantSchema.post('findOneAndDelete', async function (doc) {
   }
 });
 
+RestaurantSchema.methods.calculateAvgRating = function () {
+  let ratingsTotal = 0;
+  if(this.reviews.length){
+    this.reviews.forEach(review => {
+      ratingsTotal += review.rating;
+    });
+    this.avgRating = Math.round((ratingsTotal / this.reviews.length) * 10) / 10;
+  } else {
+    this.avgRating = ratingsTotal;
+  }
+  const floorRating = Math.floor(this.avgRating);
+  this.save();
+  return floorRating;
+};
 
+RestaurantSchema.plugin(mongoosePaginate)
 
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);

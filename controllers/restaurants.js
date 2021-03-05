@@ -6,8 +6,13 @@ const geocoder           = mbxGeocoding({accessToken: mapBoxToken});
 const { cloudinary }     = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
-  const restaurants = await Restaurant.find({});
-  res.render('restaurants/index', {restaurants});
+  const restaurants = await Restaurant.paginate({}, {
+    page: req.query.page || 1,
+    limit: 10
+  });
+  restaurants.page = Number(restaurants.page);
+  const allRestaurants = await Restaurant.find();
+  res.render('restaurants/index', {restaurants, allRestaurants});
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -50,7 +55,8 @@ module.exports.showRestaurant = async (req, res) => {
     req.flash('error', 'Cannot find that Restaurant');
     return res.redirect('/restaurants')
   }
-  res.render('restaurants/show', {restaurant});
+  const floorRating = restaurant.calculateAvgRating();
+  res.render('restaurants/show', {restaurant, floorRating});
 };
 
 module.exports.renderEditForm = async (req, res) => {

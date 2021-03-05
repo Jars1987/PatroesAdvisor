@@ -1,4 +1,5 @@
 const User       = require('../models/user');
+const Restaurants = require('../models/restaurant');
 
 module.exports.renderSignUpForm = (req, res) => {
   res.render('users/register');
@@ -46,8 +47,8 @@ module.exports.logoutUser = (req, res) => {
 module.exports.profile = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    console.log(user);
-    res.render('users/profile', {user});
+    const restaurants = await Restaurants.find({author: req.user._id});
+    res.render('users/profile', {user, restaurants});
   } catch (error) {
     req.flash('error', 'User not found. Please Login!');
     return res.redirect('/login');

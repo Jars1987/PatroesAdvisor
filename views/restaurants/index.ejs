@@ -12,7 +12,7 @@
 
 
 <h1>All Restaurants</h1>
-    <% for(let restaurant of restaurants){ %> 
+    <% for(let restaurant of restaurants.docs){ %> 
      <div class="card mb-3">
         <div class="row">
           <div class="col-md-4">
@@ -34,9 +34,11 @@
         </div>
      </div>
     <% }%> 
+     
+    <%- include('../partials/pagination') %> 
 
     <script> 
       const mapBoxToken = '<%-process.env.MAPBOX_TOKEN%>';
-      const restaurants = {features: <%- JSON.stringify(restaurants) %>}; 
+      const restaurants = {features: <%- JSON.stringify(allRestaurants) %>}; 
     </script>
     <script src="javascripts/clusterMap.js"></script>
