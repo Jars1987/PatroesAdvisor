@@ -11,8 +11,6 @@ const ImageSchema = new Schema({
     filename: String
 });
 
-//Now we can set up a virtual and this way we avoid storing this on our model DB
-//it will looked it is stored but in fact is calling virtual everytime
 ImageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/c_scale,w_200,h_140');
 });
@@ -64,6 +62,7 @@ RestaurantSchema.virtual('dateCreated').get(function () {
   return createdDate.toLocaleDateString();
 });
 
+//Mongoose Midleware to delete reviews associated with a deleted Restaurant
 RestaurantSchema.post('findOneAndDelete', async function (doc) {
   if(doc){
     await Review.deleteMany({

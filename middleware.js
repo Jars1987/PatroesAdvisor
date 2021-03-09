@@ -91,7 +91,6 @@ module.exports.isProfileOwner = async (req, res, next) => {
   const {id} = req.params;
   const userProfile = await User.findById(id);
   const userId      = req.user._id
-  console.log(req.user)
   if(!userProfile._id.equals(userId)){
     req.flash('error', 'You are not the owner of the Profile you attempted to visit!');
     return res.redirect(`/profile/${userId}`);
@@ -99,14 +98,53 @@ module.exports.isProfileOwner = async (req, res, next) => {
   next()
 }
 
-
-//If a Joi validation  was need for Sign Up user
-/*module.exports.validateUser = (req, res, next) => {
-  const {error} = userSchema.validate(req.body);
-  if(error) {
-    const msg = error.details.map(el => el.message).join('.')
-    throw new ExpressError(msg, 400);
+//using this to avoid uploafding the photo to Cloudinary if we rely on passport error handling
+module.exports.checkIfUserExists = async (req, res, next) => {
+  const emailExists = await User.find({email: req.body.email});
+  const usernameExists = await User.find({username: req.body.username});
+  if(usernameExists){
+    req.flash('error', 'A user with the given username is already registered');
+    return res.redirect('/register');
+  } else if (emailExists) {
+    req.flash('error', 'A user with the given email is already registered');
+    return res.redirect('/register');
   } else {
     next();
+
   }
-} */
+};
+
+module.exports.isValidPassword = async (req, res, next) => {
+  console.log(req.body)
+  const { user } = await User.authenticate()(req.user.username, req.body.currentPassword);
+  if(user) {
+    res.local.user = user;
+    next();
+  } else {
+    req.flash('error', 'Incorrect Current Password!')
+    return res.redirect(`/profile/${req.user._id}`);
+  }
+};
+
+module.exports.changePassword = async (req, res, next) => {
+  const {
+    newPassword,
+    passwordConfirmation
+  } = req.body;
+  if(newPassword && !passwordConfirmation){
+    req.flash('error', 'Missing Password Confirmation');
+    return res.redirect(`/profile/${req.user._id}`)
+  }
+  if(newPassword && passwordConfirmation){
+    const { user } = res.locals;
+    if(newPassword === passwordConfirmation) {
+      await user.setPassword(newPassword);
+      next();
+    } else {
+      req.flash('error', 'New passwords must match!')
+      return res.redirect(`/profile/${req.user._id}`);
+    }
+  } else {
+    next()
+  }
+};

@@ -1,21 +1,58 @@
 <% layout('layouts/boilerplate') %> 
 
 <div class="profileContainer">
-  <div class="row">
+  <div class="row mb-5">
     <div class=" col-6 col-md-3">
       <div class="card">
-       <img id="profilePic" src="<%- (!user.image.length) ? '/images/profileRandom.jpg' : user.image[0].url%>" class="img-thumnail" alt="User Profile Picture">
+       <img id="profilePic" src="<%- (!currentuser.image.length) ? '/images/profileRandom.jpg' : currentuser.image[0].url%>" class="img-thumnail" alt="User Profile Picture">
       </div>
     </div>
     <div class=" col-6 col-md-9">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title"><%= user.username %></h5>
-          <p class="card-text">Email: <%= user.email %> </p>
-          <p class="card-text">Reviews: <%- (!user.reviews.length) ? '0' : user.reviews.length+1 %> </p>
+          <h5 class="card-title"><%= currentuser.username %></h5>
+          <p class="card-text">Email: <%= currentuser.email %> </p>
+          <p class="card-text">Reviews: <%- (!currentuser.reviews.length) ? '0' : currentuser.reviews.length+1 %> </p>
           <p class="card-text"> Restaurants created: <%- (!restaurants.length) ? 'No Restaurants created yet.' : restaurants.length %> </p>
-          <a href="#" class="btn btn-primary">Edit</a>
+          <buttom class="btn btn-primary">Edit</button>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="card">
+      <div class="card-body">
+        <form action="/profile/<%= currentuser._id %>?_method=PUT" method="POST" class="validated-form" enctype="multipart/form-data" novalidate>
+          <div class="mb-3">
+              <label class="form-label" for="username">Username:</label>
+              <input class="form-control" type="text" id="username" name="username" placeholder="username" value="<%= currentuser.username %>" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="current-password">Current Password:</label>
+            <input class="form-control" type="password" id="current-password" name="currentPassword"  placeholder="Current Password" required>
+          </div>
+          <div class="mb-3">
+           <label class="form-label" for="new-password">New Password:</label>
+           <input class="form-control" type="password" id="new-password" name="newPassword"  placeholder="New Password">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="password-confirmation">Password Confirmation:</label>
+            <input class="form-control" type="password" id="password-confirmation" name="passwordConfirmation"  placeholder="Password Confirmation">
+          </div>
+          <div id="validation-message"></div>
+          <div class="mb-3">
+              <label class="form-label" for="email">Email:</label>
+              <input class="form-control" type="email" id="email" name="email" placeholder="email" value="<%= currentuser.email %>" required>
+          </div>
+          <div class="mb-3"> 
+            <label for="profilePic" class="form-label">Add a Profile Picture:</label>
+            <input class="form-control" type="file" name="image" id="profilePic">
+          </div>
+          <div class="d-grid">
+            <input type="submit" id="updateProfile" value="Submit" class="btn btn-success">
+          </div>
+      </form>
+      <script src="/javascripts/profile.js"></script>
       </div>
     </div>
   </div>

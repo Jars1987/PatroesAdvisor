@@ -4,15 +4,18 @@ const catchAsync = require('../utils/catchAsync');
 const users      = require('../controllers/users');
 const passport   = require('passport');
 const {
+      checkIfUserExists,
       profilePicUpload,
       isLoggedIn,
       isProfileOwner,
+      isValidPassword,
+      changePassword
     }             = require('../middleware');
 
 
 router.route('/register')
   .get(users.renderSignUpForm)
-  .post(profilePicUpload, catchAsync(users.createNewUser));
+  .post(checkIfUserExists, profilePicUpload, catchAsync(users.createNewUser));
 
 router.route('/login')
   .get(users.renderLogin)
@@ -23,8 +26,8 @@ router.get('/logout', users.logoutUser);
 //New Route and new functionality
 
 router.route('/profile/:id')
- .get(isLoggedIn, isProfileOwner, users.profile)
- .put(users.editProfile);
+  .get(isLoggedIn, isProfileOwner, users.profile)
+  .put(isLoggedIn, catchAsync(isValidPassword), catchAsync(changePassword), catchAsync(users.updateProfile));
 
  router.get('/forgot', (req, res) =>{
   res.send('Get Password Page');
