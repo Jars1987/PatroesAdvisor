@@ -32,6 +32,8 @@ const RestaurantSchema = new Schema({
   price: Number,
   description: String,
   location: String,
+  foodType: String,
+  specialDish: String,
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -88,7 +90,7 @@ RestaurantSchema.methods.calculateAvgRating = function () {
   return floorRating;
 };
 
-RestaurantSchema.plugin(mongoosePaginate)
+RestaurantSchema.plugin(mongoosePaginate);
 
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);

@@ -31,7 +31,12 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted">Location: <%= restaurant.location %></li>
         <li class="list-group-item">Average Meal Price: €<%= restaurant.price %></li>
-        <li class="list-group-item">Type of food: Fusion</li>
+        <% if(restaurant.foodType) {%> 
+        <li class="list-group-item">Type of food: <%= restaurant.foodType %></li>
+        <% } %> 
+        <% if(restaurant.specialDish) {%> 
+        <li class="list-group-item">Type of food: <%= restaurant.specialDish %></li>
+        <% } %> 
         <li class="list-group-item">Restaurant Rating: <span id="avgRating"><%= restaurant.avgRating %></span>
         <% for(let i = 0; i < 5; i++) { %> 
           <% if(i < floorRating){ %> 

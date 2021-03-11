@@ -1,6 +1,7 @@
 const express    = require('express');
 const router     = express.Router();
 const catchAsync = require('../utils/catchAsync');
+// use {} to avoir using users.obj
 const users      = require('../controllers/users');
 const passport   = require('passport');
 const {
@@ -9,7 +10,7 @@ const {
       isLoggedIn,
       isProfileOwner,
       isValidPassword,
-      changePassword
+      changePassword,
     }             = require('../middleware');
 
 
@@ -27,21 +28,14 @@ router.get('/logout', users.logoutUser);
 
 router.route('/profile/:id')
   .get(isLoggedIn, isProfileOwner, users.profile)
-  .put(isLoggedIn, catchAsync(isValidPassword), catchAsync(changePassword), catchAsync(users.updateProfile));
+  .put(isLoggedIn, profilePicUpload, catchAsync(isValidPassword), catchAsync(changePassword), catchAsync(users.updateProfile));
 
- router.get('/forgot', (req, res) =>{
-  res.send('Get Password Page');
- });
+ router.route('/forgot-password')
+  .get(users.forgotPw)
+  .put(catchAsync(users.putForgotPw));
 
- router.put('/forgot', (req, res) =>{
-  res.send('Put Password Page');
- });
-
- router.get('/reset', (req, res) =>{
-  res.send('/Get /reset/:token');
- });
- router.put('/reset', (req, res) =>{
-  res.send('/Get /reset/:token');
- });
+ router.route('/reset/:token')
+  .get(catchAsync(users.getReset))
+  .put(catchAsync(users.putReset));
 
 module.exports = router;

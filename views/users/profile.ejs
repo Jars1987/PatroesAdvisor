@@ -14,15 +14,15 @@
           <p class="card-text">Email: <%= currentuser.email %> </p>
           <p class="card-text">Reviews: <%- (!currentuser.reviews.length) ? '0' : currentuser.reviews.length+1 %> </p>
           <p class="card-text"> Restaurants created: <%- (!restaurants.length) ? 'No Restaurants created yet.' : restaurants.length %> </p>
-          <buttom class="btn btn-primary">Edit</button>
+          <buttom id="editProfileBtn" class="btn btn-warning">Edit Profile</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="row mb-5">
+  <div class="row mb-5 edit-profile-form" id="profileEditForm">
     <div class="card">
       <div class="card-body">
-        <form action="/profile/<%= currentuser._id %>?_method=PUT" method="POST" class="validated-form" enctype="multipart/form-data" novalidate>
+        <form action="/profile/<%= currentuser._id %>?_method=PUT" method="POST" class="validated-form" enctype="multipart/form-data"  >
           <div class="mb-3">
               <label class="form-label" for="username">Username:</label>
               <input class="form-control" type="text" id="username" name="username" placeholder="username" value="<%= currentuser.username %>" required autofocus>
@@ -49,7 +49,7 @@
             <input class="form-control" type="file" name="image" id="profilePic">
           </div>
           <div class="d-grid">
-            <input type="submit" id="updateProfile" value="Submit" class="btn btn-success">
+            <input type="submit" id="updateProfile" value="Submit Changes" class="btn btn-success">
           </div>
       </form>
       <script src="/javascripts/profile.js"></script>

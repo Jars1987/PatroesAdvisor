@@ -4,6 +4,8 @@ const submitBtn = document.getElementById('updateProfile');
 const newPassword = document.getElementById('new-password');
 const confirmation = document.getElementById('password-confirmation');
 const validationMessage = document.getElementById('validation-message');
+const editProfileForm = document.getElementById('profileEditForm');
+const toggleBtn = document.getElementById('editProfileBtn');
 
 function validatePasswords (message, add, remove) {
   validationMessage.textContent = message;
@@ -22,3 +24,8 @@ confirmation.addEventListener('input', e => {
     submitBtn.removeAttribute('disabled')
   }
 });
+
+toggleBtn.addEventListener('click', function (e) {
+  (toggleBtn.innerText === 'Edit Profile') ? toggleBtn.innerText = 'Cancel': toggleBtn.innerText = 'Edit Profile';
+  editProfileForm.classList.toggle('edit-profile-form');
+})

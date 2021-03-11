@@ -4,13 +4,13 @@
    <div class="col-6 offset-3">
     <form action="/restaurants" method="POST" novalidate class="validated-form" enctype="multipart/form-data" id="newRestaurantForm">
       <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
-        <input class="form-control" type="text" id="title" name="restaurant[title]" required>
+        <label class="form-label" for="title">Name</label>
+        <input class="form-control" type="text" id="title" name="restaurant[title]" placeholder="Name of the Restaurant" required>
         <div class="valid-feedback"> Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
-        <input class="form-control" type="text" id="location" name="restaurant[location]" required>
+        <input class="form-control" type="text" id="location" name="restaurant[location]" placeholder="Location" required>
         <div class="valid-feedback"> Looks good!</div>
       </div>
       <div class="mb-3">
@@ -21,16 +21,25 @@
           <div class="valid-feedback"> Looks good!</div>
         </div>
       </div>
+      <div class="mb-3">
+        <label class="form-label" for="foodType">Type of food:</label>
+        <input class="form-control" type="text" id="foodType" name="restaurant[foodType]" placeholder="Food Type. Ex: Asian.">
+        <div class="valid-feedback"> Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="specialDish">Special Dish:</label>
+        <input class="form-control" type="text" id="specialDish" name="restaurant[specialDish]" placeholder="Special Dish. Ex: Francesinha">
+        <div class="valid-feedback"> Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" type="text" id="description" name="restaurant[description]" placeholder="Brief description." required></textarea>
+        <div class="valid-feedback"> Looks good!</div>
+      </div>
       <div class="mb-3"> 
         <label for="formFileMultiple" class="form-label">Upload Images: </label>
         <input class="form-control" type="file" name="image" id="formFileMultiple" multiple required>
         <div class="invalid-feedback"> Image required to add a new Restaurant!</div>
-
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
-        <textarea class="form-control" type="text" id="description" name="restaurant[description]" required></textarea>
-        <div class="valid-feedback"> Looks good!</div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Restaurant</button>

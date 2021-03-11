@@ -23,7 +23,9 @@ const UserSchema = new Schema({
       type: Schema.Types.ObjectId, 
       ref: 'Review'
     }
-  ]
+  ],
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 }, opts);
 
 UserSchema.plugin(passportLocalMongoose);

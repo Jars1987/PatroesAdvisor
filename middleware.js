@@ -1,6 +1,6 @@
 const {restaurantSchema,
        reviewSchema,
-       userSchema}       = require('./schemas');
+       }                 = require('./schemas');
 const ExpressError       = require('./utils/ExpressError');
 const Restaurant         = require('./models/restaurant');
 const Review             = require('./models/review');
@@ -11,6 +11,7 @@ const upload             = multer({
                           storage,
                           limits: { fileSize: 2500000, files: 6} 
                         });
+const { cloudinary }     = require('./cloudinary');
 
 module.exports.isLoggedIn = (req, res, next) => {
   if(!req.isAuthenticated()){
@@ -114,13 +115,15 @@ module.exports.checkIfUserExists = async (req, res, next) => {
   }
 };
 
+
+
 module.exports.isValidPassword = async (req, res, next) => {
-  console.log(req.body)
   const { user } = await User.authenticate()(req.user.username, req.body.currentPassword);
   if(user) {
-    res.local.user = user;
+    res.locals.user = user;
     next();
   } else {
+    deleteProfileImage(req);
     req.flash('error', 'Incorrect Current Password!')
     return res.redirect(`/profile/${req.user._id}`);
   }
@@ -132,6 +135,7 @@ module.exports.changePassword = async (req, res, next) => {
     passwordConfirmation
   } = req.body;
   if(newPassword && !passwordConfirmation){
+    deleteProfileImage(req);
     req.flash('error', 'Missing Password Confirmation');
     return res.redirect(`/profile/${req.user._id}`)
   }
@@ -147,4 +151,8 @@ module.exports.changePassword = async (req, res, next) => {
   } else {
     next()
   }
+};
+
+const deleteProfileImage = async (req) => {
+	if (req.file) await cloudinary.uploader.destroy(req.file.filename);
 };
