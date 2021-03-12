@@ -92,6 +92,7 @@ RestaurantSchema.methods.calculateAvgRating = function () {
 
 RestaurantSchema.plugin(mongoosePaginate);
 
+RestaurantSchema.index({ geometry: '2dsphere' });
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);
 

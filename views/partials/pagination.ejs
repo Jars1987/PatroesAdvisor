@@ -3,21 +3,23 @@
 
     <% if(restaurants.page - 1){ %> 
     <li class="page-item">
-      <a class="page-link" href="restaurants?page=<%- restaurants.page - 1%>" tabindex="-1" aria-disabled="true">Previous</a>
+      <a class="page-link" href="<%= paginateUrl %><%- restaurants.page - 1%>" tabindex="-1" aria-disabled="true">Previous</a>
     </li>
     <% } %> 
 
+    <% if(restaurants.pages > 1 && restaurants.pages.length){ %> 
     <% for(let i = 1; i <= restaurants.pages; i++) {  %> 
     <li class="page-item <%- (i === restaurants.page) ? 'active' : ''%>"><a 
       class="page-link" 
-      href="restaurants?page=<%=i%>"><%= i %>
+      href="<%= paginateUrl %><%=i%>"><%= i %>
     </a>
     </li>
+      <% } %> 
       <% } %> 
 
     <% if((restaurants.page + 1) <= restaurants.pages){ %> 
     <li class="page-item">
-      <a class="page-link" href="restaurants?page=<%=restaurants.page + 1%>">Next</a>
+      <a class="page-link" href="<%= paginateUrl %><%=restaurants.page + 1%>">Next</a>
     </li>
     <% } %> 
 

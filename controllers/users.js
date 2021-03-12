@@ -7,7 +7,7 @@ const sgMail      = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRIP_API_KEY);
 
 module.exports.renderSignUpForm = (req, res) => {
-  res.render('users/register');
+  res.render('users/register', {title: 'User Signup'});
 };
 
 module.exports.createNewUser = async (req, res) => {
@@ -38,7 +38,7 @@ module.exports.createNewUser = async (req, res) => {
 
 module.exports.renderLogin = (req, res) => {
   if(req.isAuthenticated()) return res.redirect('/restaurants');
-  res.render('users/login');
+  res.render('users/login', {title: 'User Login'});
 };
 
 module.exports.loginUser = (req, res) => {
@@ -98,7 +98,7 @@ module.exports.updateProfile = async (req, res, next) => {
   };
 
   module.exports.forgotPw = (req, res, next) => {
-    res.render('users/forgot');
+    res.render('users/forgot', {title: 'User Forgot Password'});
   };
 
   module.exports.putForgotPw = async (req, res, next) => {
@@ -139,7 +139,7 @@ module.exports.updateProfile = async (req, res, next) => {
      req.flash('error', 'Password reset token is invalid or has expired.');
      return res.redirect('/forgot-password');
     }
-    res.render('users/reset', { token });
+    res.render('users/reset', { token, title: 'User Reset' });
     };
 
   module.exports.putReset = async (req, res, next) => {

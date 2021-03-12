@@ -5,11 +5,12 @@ const catchAsync         = require('../utils/catchAsync');
 const {isLoggedIn,
        isAuthor,
        validateRestaurant,
-       uploadFile
+       uploadFile,
+       searchAndFilterRestaurants
                }           = require('../middleware');
 
 router.route('/')
-       .get(catchAsync(restaurants.index))
+       .get(catchAsync(searchAndFilterRestaurants), catchAsync(restaurants.index))
        .post(isLoggedIn, uploadFile, validateRestaurant, catchAsync(restaurants.createRestaurant))
 
 router.get('/new', isLoggedIn, restaurants.renderNewForm)

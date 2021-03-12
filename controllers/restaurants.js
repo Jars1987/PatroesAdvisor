@@ -6,17 +6,22 @@ const geocoder           = mbxGeocoding({accessToken: mapBoxToken});
 const { cloudinary }     = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
-  const restaurants = await Restaurant.paginate({}, {
+  const {dbQuery} = res.locals;
+  delete res.locals.dbQuery;
+  const restaurants = await Restaurant.paginate(dbQuery, {
     page: req.query.page || 1,
     limit: 10
   });
   restaurants.page = Number(restaurants.page);
+  if(!restaurants.docs.length && res.locals.query){
+    res.flash('error', 'No results match that query!');
+  }
   const allRestaurants = await Restaurant.find();
-  res.render('restaurants/index', {restaurants, allRestaurants});
+  res.render('restaurants/index', {restaurants, allRestaurants, title: 'Restaurants Index'});
 };
 
 module.exports.renderNewForm = (req, res) => {
-  res.render('restaurants/new');
+  res.render('restaurants/new', {title: 'New Restaurant'});
 };
 
 module.exports.createRestaurant = async (req, res, next) => {
@@ -56,7 +61,7 @@ module.exports.showRestaurant = async (req, res) => {
     return res.redirect('/restaurants')
   }
   const floorRating = restaurant.calculateAvgRating();
-  res.render('restaurants/show', {restaurant, floorRating});
+  res.render('restaurants/show', {restaurant, floorRating, title: 'Show Page'});
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -66,7 +71,7 @@ module.exports.renderEditForm = async (req, res) => {
     req.flash('error', 'Cannot find that Restaurant');
     return res.redirect('/restaurants')
   }
-  res.render('restaurants/edit', {restaurant});
+  res.render('restaurants/edit', {restaurant, title: 'Restaurants Update'});
 };
 
 module.exports.updateRestaurant = async (req, res) => {

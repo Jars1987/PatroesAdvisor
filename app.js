@@ -110,6 +110,8 @@ app.use(
   })
 );
 
+app.locals.moment = require('moment');
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy());
@@ -130,7 +132,7 @@ app.use('/restaurants/:id/reviews', reviewRoutes);
 
 
 app.get('/', (req, res) =>{
-  res.render('home');
+  res.render('home', {title: 'Home Page'});
 });
 
 app.all('*', (req, res, next) => {
