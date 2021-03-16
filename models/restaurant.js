@@ -1,6 +1,6 @@
 const mongoose         = require('mongoose');
 const Review           = require('./review');
-const mongoosePaginate = require('mongoose-paginate')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const Schema           = mongoose.Schema;
 const opts             = { toJSON: {virtuals: true}, timestamps: { createdAt: 'created_at' }};
 
@@ -13,6 +13,10 @@ const ImageSchema = new Schema({
 
 ImageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/c_scale,w_200,h_140');
+});
+
+ImageSchema.virtual('thumbnailMap').get(function () {
+  return this.url.replace('/upload', '/upload/c_scale,w_100,h_75');
 });
 
 const RestaurantSchema = new Schema({
@@ -50,7 +54,8 @@ const RestaurantSchema = new Schema({
 
 
 RestaurantSchema.virtual('properties.popUpMarkup').get(function () {
-    return `<a href="/restaurants/${this._id}" >${this.title}</a>
+    return `<a href="/restaurants/${this._id}" >${this.title}</a><br>
+            <img src="${this.images[0].thumbnailMap}" alt="">
             <p>${this.description.substring(0, 50)}...</p>`;
 });
 

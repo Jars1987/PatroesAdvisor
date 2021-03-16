@@ -1,47 +1,61 @@
-<form action="/restaurants" method="get">
 
-  <fieldset>
-		<legend>Search</legend>
-		<label for="search">Search</label>
-		<input type="text" placeholder="Search" name="search" id="seach" value="<%= query.search %>">
-	</fieldset>
+<div class="card m-auto">
+	<form action="/restaurants" method="get">
+		<fieldset>
+			<label for="search">Search</label>
+			<input type="text" placeholder="Search Restaurant" name="search" id="seach" value="<%= query.search %>">
+		</fieldset>
+		<fieldset>
+			<div>
+				<label for="location">Location</label>
+				<input type="text" id="location" name="location" placeholder="Address or Zipcode" value="<%= query.location %>"><br>
+				<small><a href="#" id="find-me">use my location</a></small><br/>
+				<p id="status"></p>
+			</div>
+					<legend>Distance (Km)</legend>
+					<div class="row" id="distance">
+						<div class="col-2">
+							<div>
+								<input type="radio" name="distance" id="distance10" value="10" <%= query.distance === '10' ? 'checked' : '' %>>
+								<label for="distance25">10 Km</label>
+							</div>
+						</div>
+						<div class="col-2">
+							<div>
+								<input type="radio" name="distance" id="distance25" value="25" <%= query.distance === '25' ? 'checked' : '' %>>
+								<label for="distance50">25 Km</label>
+							</div>
+						</div>
+						<div class="col-2">
+							<div>
+								<input type="radio" name="distance" id="distance50" value="50" <%= query.distance === '50' ? 'checked' : '' %>>
+								<label for="distance100">50 Km</label>
+							</div>
+						</div>
+						<div class="col-6">
 
-	<fieldset>
-	<div>
-  	<label for="location">Location</label>
-  	<input type="text" id="location" name="location" placeholder="Address or Zipcode" value="<%= query.location %>">
-  	<small><a href="#" id="find-me">use my location</a></small><br/>
-		<p id="status"></p>
-  </div>
-		<legend>Distance (Km)</legend>
-  	<div>
-	    <input type="radio" name="distance" id="distance10" value="10" <%= query.distance === '10' ? 'checked' : '' %>>
-  	  <label for="distance25">10 Km</label>
-  	</div>
-  	<div>
-	    <input type="radio" name="distance" id="distance25" value="25" <%= query.distance === '25' ? 'checked' : '' %>>
-  	  <label for="distance50">25 Km</label>
-  	</div>
-  	<div>
-	    <input type="radio" name="distance" id="distance50" value="50" <%= query.distance === '50' ? 'checked' : '' %>>
-		  <label for="distance100">50 Km</label>
-  	</div>
-  	<div>
-  		<a href="#" id="clear-distance">clear</a>
-  	</div>
-	</fieldset>
-
-	<fieldset>
-		<legend>Price</legend>
-		<label for="min">Min</label>
-		<input type="number" id="min" name="price[min]" min="0" max="10000" step="1" placeholder="Min" value="<%= query.price ? query.price.min : '' %>">
-		<label for="max">Max</label>
-		<input type="number" id="max" name="price[max]" min="0" max="10000" step="1" step="1" placeholder="Max" value="<%= query.price ? query.price.max : '' %>">
-	</fieldset>
+						</div>
+					</div>												
+					<div>
+						<a href="#" id="clear-distance">clear</a>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Price</legend>
+					<label for="min">Min</label>
+					<input type="number" id="min" name="price[min]" min="0" max="10000" step="1" placeholder="Min" value="<%= query.price ? query.price.min : '' %>">
+					<label for="max">Max</label>
+					<input type="number" id="max" name="price[max]" min="0" max="10000" step="1" step="1" placeholder="Max" value="<%= query.price ? query.price.max : '' %>">
+				</fieldset>
+		
 	
-		<a href="/restaurants">Reset Form</a>
-	</div>
 	
-	<input class="btn btn-light" type="submit">
-</form>
-<script src="/javascripts/use-my-location.js"></script>
+
+	
+			<a href="/restaurants">Reset Form</a>	
+		<div class="d-grid gap-2 d-md-block">
+			<input class="btn btn-light btn-sm" type="submit" value="Submit">
+		</div>
+	</form>
+	<script src="/javascripts/use-my-location.js"></script>
+</div>

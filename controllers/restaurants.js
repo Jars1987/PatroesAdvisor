@@ -13,6 +13,7 @@ module.exports.index = async (req, res) => {
     limit: 10
   });
   restaurants.page = Number(restaurants.page);
+  console.log(restaurants.docs[0].images);
   if(!restaurants.docs.length && res.locals.query){
     res.flash('error', 'No results match that query!');
   }
@@ -30,11 +31,24 @@ module.exports.createRestaurant = async (req, res, next) => {
     limit: 1
   }).send()
   if(!geoData.body.features[0]){
+    for(let image of req.files){
+      await cloudinary.uploader.destroy(image.filename);
+    }
     req.flash('error', 'Please insert a valid location!');
-    res.redirect(`/restaurants/${id}/edit`);
+    return res.redirect('/restaurants/new');
   }
   const restaurant = new Restaurant(req.body.restaurant);
+  if(!restaurant){
+    for(let image of req.files){
+      await cloudinary.uploader.destroy(image.filename);
+    }
+    req.flash('error', 'Something went wrong!');
+    return res.redirect('/restaurants/new');
+  }
   if(req.files.length === 0 ){
+    for(let image of req.files){
+      await cloudinary.uploader.destroy(image.filename);
+    }
     req.flash('error', 'In order to add a new Restaurant at least one image must be provided!');
     return res.redirect('/restaurants/new');
   }

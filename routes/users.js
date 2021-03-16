@@ -16,7 +16,7 @@ const {
 
 router.route('/register')
   .get(users.renderSignUpForm)
-  .post(checkIfUserExists, profilePicUpload, catchAsync(users.createNewUser));
+  .post(catchAsync(checkIfUserExists), profilePicUpload, catchAsync(users.createNewUser));
 
 router.route('/login')
   .get(users.renderLogin)
@@ -27,7 +27,7 @@ router.get('/logout', users.logoutUser);
 //New Route and new functionality
 
 router.route('/profile/:id')
-  .get(isLoggedIn, isProfileOwner, users.profile)
+  .get(isLoggedIn, catchAsync(isProfileOwner), users.profile)
   .put(isLoggedIn, profilePicUpload, catchAsync(isValidPassword), catchAsync(changePassword), catchAsync(users.updateProfile));
 
  router.route('/forgot-password')

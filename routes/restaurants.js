@@ -17,10 +17,10 @@ router.get('/new', isLoggedIn, restaurants.renderNewForm)
 
 router.route('/:id')
        .get(catchAsync(restaurants.showRestaurant))
-       .put(isLoggedIn, isAuthor, uploadFile, validateRestaurant, catchAsync(restaurants.updateRestaurant))
-       .delete(isLoggedIn, isAuthor,catchAsync(restaurants.deleteRestaurant))
+       .put(isLoggedIn, catchAsync(isAuthor), uploadFile, validateRestaurant, catchAsync(restaurants.updateRestaurant))
+       .delete(isLoggedIn, catchAsync(isAuthor),catchAsync(restaurants.deleteRestaurant))
 
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(restaurants.renderEditForm))
+router.get('/:id/edit', isLoggedIn, catchAsync(isAuthor), catchAsync(restaurants.renderEditForm))
 
 
 module.exports = router;

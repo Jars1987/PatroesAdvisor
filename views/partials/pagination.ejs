@@ -1,14 +1,14 @@
 <nav aria-label="Page navigation">
   <ul class="pagination justify-content-center">
 
-    <% if(restaurants.page - 1){ %> 
+    <% if(restaurants.prevPage){ %> 
     <li class="page-item">
-      <a class="page-link" href="<%= paginateUrl %><%- restaurants.page - 1%>" tabindex="-1" aria-disabled="true">Previous</a>
+      <a class="page-link" href="<%= paginateUrl %><%- restaurants.prevPage%>" tabindex="-1" aria-disabled="true">Previous</a>
     </li>
     <% } %> 
 
-    <% if(restaurants.pages > 1 && restaurants.pages.length){ %> 
-    <% for(let i = 1; i <= restaurants.pages; i++) {  %> 
+    <% if(restaurants.totalPages > 1 && restaurants.docs.length){ %> 
+    <% for(let i = 1; i <= restaurants.totalPages; i++) {  %> 
     <li class="page-item <%- (i === restaurants.page) ? 'active' : ''%>"><a 
       class="page-link" 
       href="<%= paginateUrl %><%=i%>"><%= i %>
@@ -17,9 +17,9 @@
       <% } %> 
       <% } %> 
 
-    <% if((restaurants.page + 1) <= restaurants.pages){ %> 
+    <% if(restaurants.nextPage){ %> 
     <li class="page-item">
-      <a class="page-link" href="<%= paginateUrl %><%=restaurants.page + 1%>">Next</a>
+      <a class="page-link" href="<%= paginateUrl %><%=restaurants.nextPage%>">Next</a>
     </li>
     <% } %> 
 

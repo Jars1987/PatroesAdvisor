@@ -17,14 +17,13 @@
         <label class="form-label" for="price">Average Meal Price</label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="price-label">€</span>
-          <input type="text" class="form-control" id="price" name="restaurant[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label" required>
+          <input type="number " class="form-control" id="price" name="restaurant[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label" required>
           <div class="valid-feedback"> Looks good!</div>
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="foodType">Type of food:</label>
         <input class="form-control" type="text" id="foodType" name="restaurant[foodType]" placeholder="Food Type. Ex: Asian.">
-        <div class="valid-feedback"> Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="specialDish">Special Dish:</label>
@@ -40,9 +39,10 @@
         <label for="formFileMultiple" class="form-label">Upload Images: </label>
         <input class="form-control" type="file" name="image" id="formFileMultiple" multiple required>
         <div class="invalid-feedback"> Image required to add a new Restaurant!</div>
+        <div id="validationMessage"></div>
       </div>
       <div class="mb-3">
-        <button class="btn btn-success">Add Restaurant</button>
+        <button class="btn btn-success" id="submitBtn">Add Restaurant</button>
       </div>
     </form>
     <a href="/restaurants"> Back To All Restaurants</a>

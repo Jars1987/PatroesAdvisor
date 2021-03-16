@@ -17,14 +17,14 @@
          <label class="form-label" for="price">Average Meal Price</label>
          <div class="input-group mb-3">
            <span class="input-group-text" id="price-label">€</span>
-           <input type="text" class="form-control" id="price" name="restaurant[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label" value="<%= restaurant.price%>" required>
+           <input type="number" class="form-control" id="price" name="restaurant[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label" value="<%= restaurant.price%>" required>
            <div class="valid-feedback"> Looks good!</div>
          </div>
        </div>
        <div class="mb-3">
         <label for="formFileMultiple" class="form-label">Add More Images</label>
         <input type="file" class="form-control imageUpload" id="formFileMultiple" name="image" multiple>
-        <div class="valid-feedback"> Looks good!</div>
+        <div id="validationMessage"></div>
       </div>
        <div class="mb-3">
          <label class="form-label" for="description">Description</label>
