@@ -14,7 +14,7 @@ const upload             = multer({
 const { cloudinary }     = require('./cloudinary');
 const mbxGeocoding       = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken        = process.env.MAPBOX_TOKEN;
-const geocoder           = mbxGeocoding({accessToken: mapBoxToken});
+const geocodingClient    = mbxGeocoding({accessToken: mapBoxToken});
 
 const deleteProfileImage = async (req) => {
 	if (req.file) await cloudinary.uploader.destroy(req.file.filename);
@@ -180,7 +180,7 @@ module.exports.searchAndFilterRestaurants = async (req, res, next) => {
 		// initialize an empty array to store our db queries (objects) in
 		const dbQueries = [];
 		// destructure all potential properties from req.query
-		let { search, price, avgRating, location, distance  } = req.query;
+		let { search, price, location, distance  } = req.query;
 		// check if search exists, if it does then we know that the user
 		// submitted the search/filter form with a search query
 		if (search) {

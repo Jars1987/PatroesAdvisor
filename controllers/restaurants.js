@@ -10,12 +10,13 @@ module.exports.index = async (req, res) => {
   delete res.locals.dbQuery;
   const restaurants = await Restaurant.paginate(dbQuery, {
     page: req.query.page || 1,
-    limit: 10
+    limit: 10,
+    forceCountFn: true,
   });
   restaurants.page = Number(restaurants.page);
-  console.log(restaurants.docs[0].images);
   if(!restaurants.docs.length && res.locals.query){
-    res.flash('error', 'No results match that query!');
+    req.flash('error', 'No results match that query!');
+    res.redirect('/restaurants');
   }
   const allRestaurants = await Restaurant.find();
   res.render('restaurants/index', {restaurants, allRestaurants, title: 'Restaurants Index'});

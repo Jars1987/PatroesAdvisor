@@ -1,18 +1,20 @@
 
-<div class="card m-auto">
+<div class="card text-white bg-transparent border-0">
 	<form action="/restaurants" method="get">
-		<fieldset>
-			<label for="search">Search</label>
-			<input type="text" placeholder="Search Restaurant" name="search" id="seach" value="<%= query.search %>">
+		<h4 class="card-title d-flex justify-content-center my-2">Where are you going to eat?</h5>
+		<fieldset class="mx-4 my-2">
+			<label class="form-label" for="search">Search</label>
+			<input class="form-control" type="text" placeholder="Search Restaurant" name="search" id="seach" value="<%= query.search %>">
 		</fieldset>
-		<fieldset>
+		<fieldset class="mx-4">
 			<div>
-				<label for="location">Location</label>
-				<input type="text" id="location" name="location" placeholder="Address or Zipcode" value="<%= query.location %>"><br>
-				<small><a href="#" id="find-me">use my location</a></small><br/>
+				<label class="form-label" for="location">Location</label>
+				<input class="form-control" type="text" id="location" name="location" placeholder="Address or Zipcode" value="<%= query.location %>"><br>
+				<a href="#" class="btn btn-outline-light btn-sm" id="find-me">Use my location</a><br/>
 				<p id="status"></p>
 			</div>
-					<legend>Distance (Km)</legend>
+			<h6 class="card-title my-2">Search Radius</h5>
+
 					<div class="row" id="distance">
 						<div class="col-2">
 							<div>
@@ -37,25 +39,19 @@
 						</div>
 					</div>												
 					<div>
-						<a href="#" id="clear-distance">clear</a>
+						<a href="#" class="text-white" id="clear-distance">Clear</a>
 					</div>
 				</fieldset>
-				<fieldset>
-					<legend>Price</legend>
+				<fieldset class="mx-4 my-2">
+					<h6 class="card-title my-2">Price:</h5>
 					<label for="min">Min</label>
 					<input type="number" id="min" name="price[min]" min="0" max="10000" step="1" placeholder="Min" value="<%= query.price ? query.price.min : '' %>">
 					<label for="max">Max</label>
 					<input type="number" id="max" name="price[max]" min="0" max="10000" step="1" step="1" placeholder="Max" value="<%= query.price ? query.price.max : '' %>">
-				</fieldset>
-		
-	
-	
-
-	
-			<a href="/restaurants">Reset Form</a>	
-		<div class="d-grid gap-2 d-md-block">
-			<input class="btn btn-light btn-sm" type="submit" value="Submit">
+				</fieldset>	
+		<div class="d-grid gap-2 mx-4">
+			<input class="btn btn-light btn-sm" type="submit" value="Find Restaurant">
 		</div>
 	</form>
-	<script src="/javascripts/use-my-location.js"></script>
+	<script src="javascripts/use-my-location.js"></script>
 </div>
