@@ -11,7 +11,10 @@ module.exports.index = async (req, res) => {
   const restaurants = await Restaurant.paginate(dbQuery, {
     page: req.query.page || 1,
     limit: 10,
-    forceCountFn: true,
+    forceCountFn: true
+    //force count is needed for $near on searchAndFilter middleware to work
+    //but this makes depracation warning goes on.
+    //mongoose sugest to swicht $near with $center but it does not recgnise in this middleware but mongoDB states $next is to be used in $geoWithin
   });
   restaurants.page = Number(restaurants.page);
   if(!restaurants.docs.length && res.locals.query){
@@ -57,7 +60,6 @@ module.exports.createRestaurant = async (req, res, next) => {
   restaurant.images = req.files.map(f => ({url: f.path, filename: f.filename}))
   restaurant.author = req.user._id;
   await restaurant.save();
-  console.log(restaurant);
   req.flash('success', 'Successfuly added a new Restaurant!');
   res.redirect(`/restaurants/${restaurant._id}`);
 };

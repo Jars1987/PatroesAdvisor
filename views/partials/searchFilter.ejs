@@ -1,5 +1,5 @@
 
-<div class="card text-white bg-transparent border-0">
+<div class="card text-white" id="searchCard">
 	<form action="/restaurants" method="get">
 		<h4 class="card-title d-flex justify-content-center my-2">Where are you going to eat?</h5>
 		<fieldset class="mx-4 my-2">
@@ -10,7 +10,7 @@
 			<div>
 				<label class="form-label" for="location">Location</label>
 				<input class="form-control" type="text" id="location" name="location" placeholder="Address or Zipcode" value="<%= query.location %>"><br>
-				<a href="#" class="btn btn-outline-light btn-sm" id="find-me">Use my location</a><br/>
+				<a href="#" class="btn btn-warning btn-sm" id="find-me">Use my location</a><br/>
 				<p id="status"></p>
 			</div>
 			<h6 class="card-title my-2">Search Radius</h5>
@@ -50,7 +50,7 @@
 					<input type="number" id="max" name="price[max]" min="0" max="10000" step="1" step="1" placeholder="Max" value="<%= query.price ? query.price.max : '' %>">
 				</fieldset>	
 		<div class="d-grid gap-2 mx-4">
-			<input class="btn btn-light btn-sm" type="submit" value="Find Restaurant">
+			<input class="btn btn-primary btn-sm mb-3" type="submit" value="Find Restaurant">
 		</div>
 	</form>
 	<script src="javascripts/use-my-location.js"></script>

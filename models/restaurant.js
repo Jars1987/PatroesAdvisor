@@ -1,6 +1,6 @@
 const mongoose         = require('mongoose');
 const Review           = require('./review');
-const mongoosePaginate = require('mongoose-paginate-v2')
+const mongoosePaginate = require('mongoose-paginate-v2');
 const Schema           = mongoose.Schema;
 const opts             = { toJSON: {virtuals: true}, timestamps: { createdAt: 'created_at' }};
 

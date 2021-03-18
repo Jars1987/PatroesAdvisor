@@ -15,6 +15,7 @@ module.exports.createNewUser = async (req, res) => {
     const {email, username, password} = req.body;
     const user = new User({email, username});
     const registeredUser= await User.register(user, password);
+    console.log(registeredUser);
     if(req.file.length === 0 ){
       req.flash('error', 'In order to Sign Up a User a Profile picture must be provided!');
       return res.redirect('/restaurants/new');
@@ -59,7 +60,7 @@ module.exports.profile = async (req, res) => {
     const restaurants = await Restaurants.find({author: req.user._id});
     // different metohd to obtain a limit amount restaurants:
     //const restaurants = await Restaurants.find().where('author).equals(req.user._id).limit(10).exec()
-    res.render('users/profile', {restaurants});
+    res.render('users/profile', {restaurants, title: 'User Profile'});
   } catch (error) {
     req.flash('error', 'User not found. Please Login!');
     return res.redirect('/login');

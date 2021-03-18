@@ -113,11 +113,15 @@ module.exports.isProfileOwner = async (req, res, next) => {
 //using this to avoid uploafding the photo to Cloudinary if we rely on passport error handling
 module.exports.checkIfUserExists = async (req, res, next) => {
   const emailExists = await User.find({email: req.body.email});
+	console.log('emailExists:', emailExists);
   const usernameExists = await User.find({username: req.body.username});
-  if(usernameExists){
+	console.log('usernameExists', usernameExists);
+  if(usernameExists.length){
+		console.log('username error');
     req.flash('error', 'A user with the given username is already registered');
     return res.redirect('/register');
-  } else if (emailExists) {
+  } else if (emailExists.length) {
+		console.log('email error');
     req.flash('error', 'A user with the given email is already registered');
     return res.redirect('/register');
   } else {

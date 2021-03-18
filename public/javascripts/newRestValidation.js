@@ -26,7 +26,7 @@
         validateImages('Sorry! A Restaurant must contain at least one Image.', 'color-red', 'color-green');
       } else if (!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])) {
         event.preventDefault();
-        validateImages('Sorry! Sorry! A Restaurant only accepts JPG, JPEG and PNG Images.', 'color-red', 'color-green');
+        validateImages('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images.', 'color-red', 'color-green');
       } else if(imageFiles){
         for(file of imageFiles){
           if(file.size > 2500000){

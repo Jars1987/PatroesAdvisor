@@ -2,7 +2,7 @@ const restaurantEditForm = document.getElementById('restaurantEditForm');
 const validationMessage = document.getElementById('validationMessage');
 
 function hasExtension(inputID, exts) {
-  var fileName = document.getElementById(inputID).value;
+  const fileName = document.getElementById(inputID).value;
   return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$', "i")).test(fileName);
    }
 
@@ -26,9 +26,11 @@ restaurantEditForm.addEventListener('submit', function(event) {
   } else if ( newTotal === 0) {
     event.preventDefault();
     validateImages('Sorry! A Restaurant must contain at least one Image.', 'color-red', 'color-green');
-  } else if(!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])) {
-     event.preventDefault();
-     validateImages('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images', 'color-red', 'color-green');
+  } else if(imageUploads > 0) {
+    if(!hasExtension('formFileMultiple', ['.jpg', '.jpeg', '.png'])){
+      event.preventDefault();
+      validateImages('Sorry! A Restaurant only accepts JPG, JPEG and PNG Images', 'color-red', 'color-green');
+    } 
   } else if (imageFiles){
     for(file of imageFiles){
       if(file.size > 2500000){
